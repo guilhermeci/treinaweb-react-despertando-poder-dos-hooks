@@ -1,41 +1,25 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 import Video from './Video';
-
-const _list = [
-    {
-        id: 2,
-        title: 'Disco',
-        duration: 10,
-        url: 'https://www.videvo.net/videvo_files/converted/2016_10/preview/161021_04_CoffeeShop_RecordPlayer_1080p.mp414266.webm',
-        cover: 'https://images.freeimages.com/images/large-previews/3c5/blue-discs-2-1469920.jpg'
-    },
-    {
-        id: 5,
-        title: 'Disco',
-        duration: 10,
-        url: 'https://www.videvo.net/videvo_files/converted/2016_10/preview/161021_04_CoffeeShop_RecordPlayer_1080p.mp414266.webm',
-        cover: 'https://images.freeimages.com/images/large-previews/3c5/blue-discs-2-1469920.jpg'
-    },
-    {
-        id: 8,
-        title: 'Disco',
-        duration: 10,
-        url: 'https://www.videvo.net/videvo_files/converted/2016_10/preview/161021_04_CoffeeShop_RecordPlayer_1080p.mp414266.webm',
-        cover: 'https://images.freeimages.com/images/large-previews/3c5/blue-discs-2-1469920.jpg'
-    }
-]
+import { videoStore } from '../data/video/VideoContext'
 
 export default function VideoList(){
-
-    function onClick(video){
-        console.log(video);
-    }
-
+    const [videoState, videoDispatch] = useContext(videoStore)
+    const videosList = useMemo(() => {
+        function onClick(video){
+            videoDispatch({
+                type: 'select',
+                value: video
+            })
+        }
+        return videoState.videos.map(item => (
+            <Video key={item.title} onClick={onClick} video={item}  />
+        ))
+    }, [videoState.video, videoDispatch])
+    
+    console.log('videoState',videoState)
     return(
         <ul className="list" >
-            {_list.map(item => (
-                <Video key={item.id} onClick={onClick} video={item}  />
-            ))}
+            {videosList}
         </ul>
     );
 }
