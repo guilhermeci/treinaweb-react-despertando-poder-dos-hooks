@@ -9,7 +9,7 @@ export default function VideoPlayer () {
     const progressTimer = useRef()
     const [isPlaying, setPlay] = useState(false)
     const [progress, setProgress] = useState(0);
-    const totalTime = useMemo(() => TimeService.formatTime(videi,duration), [video])
+    const totalTime = useMemo(() => TimeService.formatTime(video.duration), [video])
     useEffect(() => {
         const videoElement = videoRef.current
         videoElement.addEventListener('play', play)
